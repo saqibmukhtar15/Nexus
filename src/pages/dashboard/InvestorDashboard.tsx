@@ -7,9 +7,9 @@ import { Input } from '../../components/ui/Input';
 import { Badge } from '../../components/ui/Badge';
 import { EntrepreneurCard } from '../../components/entrepreneur/EntrepreneurCard';
 import { useAuth } from '../../context/AuthContext';
-import { Entrepreneur } from '../../types';
 import { entrepreneurs } from '../../data/users';
 import { getRequestsFromInvestor } from '../../data/collaborationRequests';
+import Calendar from '../../components/calender/Calendar'; // Added Calendar import
 
 export const InvestorDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -18,30 +18,23 @@ export const InvestorDashboard: React.FC = () => {
   
   if (!user) return null;
   
-  // Get collaboration requests sent by this investor
   const sentRequests = getRequestsFromInvestor(user.id);
-  const requestedEntrepreneurIds = sentRequests.map(req => req.entrepreneurId);
   
-  // Filter entrepreneurs based on search and industry filters
   const filteredEntrepreneurs = entrepreneurs.filter(entrepreneur => {
-    // Search filter
     const matchesSearch = searchQuery === '' || 
       entrepreneur.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entrepreneur.startupName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entrepreneur.industry.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entrepreneur.pitchSummary.toLowerCase().includes(searchQuery.toLowerCase());
     
-    // Industry filter
     const matchesIndustry = selectedIndustries.length === 0 || 
       selectedIndustries.includes(entrepreneur.industry);
     
     return matchesSearch && matchesIndustry;
   });
   
-  // Get unique industries for filter
   const industries = Array.from(new Set(entrepreneurs.map(e => e.industry)));
   
-  // Toggle industry selection
   const toggleIndustry = (industry: string) => {
     setSelectedIndustries(prevSelected => 
       prevSelected.includes(industry)
@@ -59,9 +52,7 @@ export const InvestorDashboard: React.FC = () => {
         </div>
         
         <Link to="/entrepreneurs">
-          <Button
-            leftIcon={<PlusCircle size={18} />}
-          >
+          <Button leftIcon={<PlusCircle size={18} />}>
             View All Startups
           </Button>
         </Link>
@@ -143,6 +134,18 @@ export const InvestorDashboard: React.FC = () => {
                 </h3>
               </div>
             </div>
+          </CardBody>
+        </Card>
+      </div>
+
+      {/* Calendar Section */}
+      <div>
+        <Card>
+          <CardHeader>
+            <h2 className="text-lg font-medium text-gray-900">My Meetings</h2>
+          </CardHeader>
+          <CardBody>
+            <Calendar />
           </CardBody>
         </Card>
       </div>

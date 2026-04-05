@@ -79,3 +79,10 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+
+<button
+  onClick={addMeeting}
+  className="mb-3 bg-blue-500 text-white px-4 py-2 rounded"
+>
+  Add Meeting
+</button>
