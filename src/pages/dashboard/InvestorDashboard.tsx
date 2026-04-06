@@ -9,7 +9,7 @@ import { EntrepreneurCard } from '../../components/entrepreneur/EntrepreneurCard
 import { useAuth } from '../../context/AuthContext';
 import { entrepreneurs } from '../../data/users';
 import { getRequestsFromInvestor } from '../../data/collaborationRequests';
-import Calendar from '../../components/calender/Calendar'; // Added Calendar import
+
 
 export const InvestorDashboard: React.FC = () => {
   const { user } = useAuth();
